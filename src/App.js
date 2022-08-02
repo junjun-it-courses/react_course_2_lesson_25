@@ -1,9 +1,20 @@
-import Counter from "./components/Counter";
+import {useGetPostsQuery, useGetPostByIdQuery, useCreatePostMutation} from "./store/postsApi";
+import {useEffect} from "react";
+
 
 function App() {
+   const [createPost, {isLoading}] = useCreatePostMutation();
+
+   useEffect(() => {
+       setTimeout(() => {
+           createPost();
+       }, 100)
+   }, [])
+
+
   return (
     <div className="App">
-        <Counter />
+        hello world
     </div>
   );
 }
