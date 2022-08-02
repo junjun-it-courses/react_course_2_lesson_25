@@ -1,8 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from './slices/counter';
+import {postsApi} from "./postsApi";
 
 export default configureStore({
     reducer: {
-        counter: counterReducer
+        [postsApi.reducerPath]: postsApi.reducer,
+    },
+
+    middleware: getDefaultMiddleware => {
+        return getDefaultMiddleware().concat(postsApi.middleware)
     }
 })
