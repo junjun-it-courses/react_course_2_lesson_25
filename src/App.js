@@ -1,4 +1,4 @@
-import {useGetPostsQuery, useCreatePostMutation} from "./store/postsApi";
+import {useGetPostsQuery, useCreatePostMutation, useDeletePostMutation} from "./store/postsApi";
 import {useState} from "react";
 
 const formDefaultState = {
@@ -11,6 +11,7 @@ function App() {
     const {data, isLoading} = useGetPostsQuery(numberOfPosts);
     const [postData, setPostData] = useState({...formDefaultState});
     const [createPost, {isLoading: isCreating}] = useCreatePostMutation();
+    const [deletePost] = useDeletePostMutation();
 
     if(isLoading) return <h3>Loading ...</h3>;
 
@@ -27,6 +28,8 @@ function App() {
 
         console.log(requestData)
     }
+
+    const removePost = id => () => deletePost(id);
 
     const changeNumberOfPosts = ({target}) => setNumberOfPosts(target.value);
 
@@ -56,7 +59,10 @@ function App() {
             </label>
             <ul>
                 {data.map(post => (
-                    <li key={post.id}>{post.title}</li>
+                    <li key={post.id}>
+                        {post.title}
+                        <button onClick={removePost(post.id)}>delete post</button>
+                    </li>
                 ))}
             </ul>
         </div>
